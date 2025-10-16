@@ -11,15 +11,20 @@ public:
     pinMode(_CLK, INPUT_PULLUP);
     _lastState = digitalRead(_CLK);
   }
-  int tick() {
-    _state = digitalRead(_CLK);
-    if (_state != _lastState) {
-      if (digitalRead(_DT) != _state) return 1;
-      else return -1;
+int tick() {
+  _state = digitalRead(_CLK);
+  if (_state != _lastState) {
+    if (digitalRead(_DT) != _state) {
+      _lastState = _state;
+      return 1;  // по часовой
+    } else {
+      _lastState = _state;
+      return -1; // против часовой
     }
-    return 0;
   }
-
+  _lastState = _state;
+  return 0;
+}
   boolean tickSW(boolean lvlBtn) {
     if (millis() - _tmrSwRd >= 30) {
       if (digitalRead(_SW) == lvlBtn) return true;
