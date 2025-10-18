@@ -13,9 +13,9 @@ class EasyENC {
       currentState = digitalRead(CLK);  
     }
     int tick() {
-  _currentState = digitalRead(CLK);
+  _currentState = digitalRead(_CLK);
    if (_currentState != _initState  && _currentState == 1) {
-    digitalRead(DT) != currentState ? return 1 : return -1;
+    digitalRead(_DT) != currentState ? return 1 : return -1;
    }
   _initState = _currentState;
 }
