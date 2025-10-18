@@ -5,21 +5,17 @@
 
 ```cpp
 #include<EasyENC.h>
-EasyENC enc(2, 3, 4) // 2 - sw 3 - dt clk - 4
+EasyENC enc(3, 2);
 void setup() {
-  enc.init();
+  enc.init(2);
   Serial.begin(115200);
 }
-
+int8_t counter;
 void loop() {
   enc.tick();
-  if(enc.direct == -1)Serial.printlln("Right"); // в право
-  if(enc.direct == 1)Serial.printlln("Left"); // в лево
-  if(enc.tickSW(false) == -1)Serial.printlln("Click"); // клик, в скобках указываем уровень кнопки при нажатии
+  if (enc.direct == 1) Serial.println("right");
+  if (enc.direct == -1) Serial.println("left");
 }
 ```
-в метод 
-```cpp 
-tickSW(a)
-``` 
-и вместо **a** вставляем состояние кнопки в нажатом состоянии.
+## Примечание
+Библиотека **не поддерживает кнопку(просто не указывайте в обьекте), ждите обновления**
