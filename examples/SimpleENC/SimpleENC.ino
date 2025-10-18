@@ -6,7 +6,8 @@ void setup() {
 }
 
 void loop() {
-  if(enc.tick() == 1)Serial.printlln("Right"); // в право
-  if(enc.tick() == -1)Serial.printlln("Left"); // в лево
-  if(enc.tickSW(false) == -1)Serial.printlln("Left"); // клик, в скобках указываем уровень кнопки при нажатии
+  enc.tick();
+  if(enc.direct == -1)Serial.printlln("Right"); // в право
+  if(enc.direct == 1)Serial.printlln("Left"); // в лево
+  if(enc.tickSW(false) == -1)Serial.printlln("Click"); // клик, в скобках указываем уровень кнопки при нажатии
 }
