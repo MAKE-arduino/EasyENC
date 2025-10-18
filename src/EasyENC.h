@@ -1,3 +1,6 @@
+#pragma once
+#include <Arduino.h>
+
 class EasyENC {
 public:
   EasyENC(uint8_t DT, uint8_t CLK)
