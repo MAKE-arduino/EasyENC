@@ -12,7 +12,7 @@ void setup() {
 }
 int8_t counter;
 void loop() {
-  enc.tick();
+  enc.tick(2); // сколько срабатываний за 1 щелчёк(шаг) выдаёт энкодер
   if (enc.direct == 1) Serial.println("right");
   if (enc.direct == -1) Serial.println("left");
 }
