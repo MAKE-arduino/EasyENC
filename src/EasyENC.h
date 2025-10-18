@@ -1,33 +1,40 @@
-#pragma once
-#include <Arduino.h>
-
-class EasyENC {
-  public:
-    EasyENC(uint8_t SW, uint8_t DT, uint8_t CLK)
-      : _SW(SW), _DT(DT), _CLK(CLK) {}
-    
-    void init() {
-      pinMode(_SW, INPUT_PULLUP);
-      pinMode(_DT, INPUT_PULLUP);
-      pinMode(_CLK, INPUT_PULLUP);
-      currentState = digitalRead(CLK);  
+class SCenc {
+public:
+  SCenc(uint8_t SW, uint8_t DT, uint8_t CLK)
+    : _SW(SW), _DT(DT), _CLK(CLK) {}
+  // переменные
+  int8_t direct;
+  // инициализация(обязательно)
+  void init() {
+    //  обьявляем пины как вход
+    pinMode(_SW, INPUT_PULLUP);
+    pinMode(_DT, INPUT_PULLUP);
+    pinMode(_CLK, INPUT_PULLUP);
+    _lastState = digitalRead(_CLK);
+  }
+  // тикер, меняет значение переменой(вызывать в луп)
+  void tick() {
+    _state = digitalRead(_CLK);
+    if (_state != _lastState) {
+      digitalRead(_DT) != _state ? direct = 1 : direct = -1;
     }
-    int tick() {
-  _currentState = digitalRead(_CLK);
-   if (_currentState != _initState  && _currentState == 1) {
-    digitalRead(_DT) != currentState ? return 1 : return -1;
-   }
-  _initState = _currentState;
+  }
+  else direct = 0;
+  _lastState = _state;
 }
-    boolean tickSW(boolean lvlBtn) {
-      if (millis() - _tmrSwRd >= 30) {
-        if (digitalRead(_SW) == lvlBtn) return true;
-        else return false;
-        _tmrSwRd = millis();
-      }
-    }
-  private:
-    uint8_t _SW, _DT, _CLK, _pA, _pB, _typeEnc;
-    boolean _initState, _currentState;
-    uint32_t _tmrSwRd;
+
+// тикр кнопки, вовзращает True при нажатой кнопке. В функцию указать уровень кнопки при нажатии
+boolean tickSW(boolean lvlBtn) {
+  if (millis() - _tmrSwRd >= 30) {
+    if (digitalRead(_SW) == lvlBtn) return true;
+    else return false;
+    _tmrSwRd = millis();
+  }
+}
+
+private:
+uint8_t _SW, _DT, _CLK;
+boolean _state, _lastState;
+uint32_t _tmrSwRd, _tmrZeroDrct;
+boolean numBtn;
 };
