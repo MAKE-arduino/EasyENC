@@ -5,16 +5,15 @@
 
 ```cpp
 #include<EasyENC.h>
-EasyENC enc(3, 2); // DT - 3, CLK - 2
+EasyENC<2, 3, 1> enc; // DT, CLK, тип энкодера, читай READme
 void setup() {
-  enc.init(2);  // сколько срабатываний за 1 щелчёк(шаг) выдаёт энкодер
   Serial.begin(115200);
 }
-int8_t counter;
+
 void loop() {
   enc.tick();
-  if (enc.direct == 1) Serial.println("right");
-  if (enc.direct == -1) Serial.println("left");
+  if (enc.direct == 1) Serial.println("left");
+  else if (enc.direct == -1) Serial.println("right");
 }
 ```
 ## Примечание
